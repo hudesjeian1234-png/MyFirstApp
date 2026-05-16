@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-// I added useState and TextInput to make the profile card interactive. 05/15/2026
 export default function Index() {
   const [name, setName] = useState('');
+  const [count, setCount] = useState(0);
+
+  const message =
+    count > 0
+      ? `${name ? name : 'You'}, you tapped ${count} times!`
+      : "Tap the + button to start";
 
   return (
     <View style={styles.screen}>
@@ -19,12 +24,37 @@ export default function Index() {
       />
       
       <Text style={styles.name}>
-        Hello, {name}!
+        {name === '' ? 'Please enter your name' : `Hello, ${name}!`}
       </Text>
       
       <Text style={styles.course}>
         MMA Student · CS126-1
       </Text>
+      
+      <Text style={styles.message}>{message}</Text>
+      
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => setCount(count + 1)}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => setCount(count - 1)}
+        >
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => setCount(0)}
+        >
+          <Text style={styles.buttonText}>RESET</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -34,7 +64,8 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#f2f2f2',
+    padding: 20
   },
   photo: { 
     width: 120, 
@@ -46,11 +77,10 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#333',
     padding: 10,
-    width: 200,
-    borderRadius: 8,
-    textAlign: 'center'
+    width: 350,
+    textAlign: 'left'
   },
   name: { 
     fontSize: 22, 
@@ -61,5 +91,28 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     color: '#888',
     marginTop: 4
+  },
+  message: {
+    fontSize: 16,
+    color: '#333',
+    marginTop: 15,
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  buttonContainer: {
+    marginTop: 10,
+    width: 500
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 15,
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 0
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 });
